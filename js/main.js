@@ -165,7 +165,6 @@ function generateGrid(grid, difficulty){
         squareEl.addEventListener("click", function getSquare() {
           if (gameOver) {
             this.removeEventListener("click", getSquare);
-            return gameOver;
           } else {
             if (bombe.includes(this.value)) {
               this.classList.add("red");
@@ -188,12 +187,7 @@ function generateGrid(grid, difficulty){
 
         grid.append(squareEl);
       }
-
-
-
-    }
-
-   
+    }  
 }
 
 
