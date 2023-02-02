@@ -30,7 +30,7 @@ containerEl.style.display = "none";
 // SI CREA UN ARRAY DI 16 NUMERI CASUALI IN BASE ALLA DIFFICOLTA' (100, 81, 49) 
 
 let bombe = [];
-
+let gameOver = false;
 
 //AGGIUNGO AL BOTTONE L'EVENTO CLICK DOVE CREERA' LA GRIGLIA IN CONTAINER
 buttonEl.addEventListener("click", function(){
@@ -81,15 +81,22 @@ function generateGrid(grid, difficulty){
         squareEl.classList.add("easy");
         squareEl.value = text;
         squareEl.addEventListener("click", function getSquare() {
-          if (bombe.includes(this.value)){
-            this.classList.add("red");
+          if (gameOver) {
             this.removeEventListener("click", getSquare);
-          }
-          else{
-            this.classList.add("active");
-            counter++;
-            this.removeEventListener("click", getSquare);
-            console.log(counter);
+          } else {
+            if (bombe.includes(this.value)) {
+              this.classList.add("red");
+              gameOver = true;
+              this.removeEventListener("click", getSquare);
+            } else {
+              this.classList.add("active");
+              counter++;
+              this.removeEventListener("click", getSquare);
+              if (counter == 16) {
+                gameOver = true;
+                console.log("HAI VINTO!");
+              }
+            }
           }
           
         });
@@ -114,14 +121,22 @@ function generateGrid(grid, difficulty){
         squareEl.classList.add("medium");
         squareEl.value = text;
         squareEl.addEventListener("click", function getSquare() {
-          if (bombe.includes(this.value)) {
-            this.classList.add("red");
+          if (gameOver) {
             this.removeEventListener("click", getSquare);
           } else {
-            this.classList.add("active");
-            counter++;
-            this.removeEventListener("click", getSquare);
-            console.log(counter);
+            if (bombe.includes(this.value)) {
+              this.classList.add("red");
+              gameOver = true;
+              this.removeEventListener("click", getSquare);
+            } else {
+              this.classList.add("active");
+              counter++;
+              this.removeEventListener("click", getSquare);
+              if (counter == 16) {
+                gameOver = true;
+                console.log("HAI VINTO!");
+              }
+            }
           }
         });
 
@@ -143,14 +158,22 @@ function generateGrid(grid, difficulty){
         squareEl.classList.add("hard");
         squareEl.value = text;
         squareEl.addEventListener("click", function getSquare() {
-          if (bombe.includes(this.value)) {
-            this.classList.add("red");
+          if(gameOver){
             this.removeEventListener("click", getSquare);
-          } else {
-            this.classList.add("active");
-            counter++;
-            this.removeEventListener("click", getSquare);
-            console.log(counter);
+          }else{
+            if (bombe.includes(this.value)) {
+              this.classList.add("red");
+              gameOver = true;
+              this.removeEventListener("click", getSquare);
+            } else {
+              this.classList.add("active");
+              counter++;
+              this.removeEventListener("click", getSquare);
+              if (counter == 16){
+                gameOver = true;
+                console.log("HAI VINTO!");
+              }
+            }
           }
         });
 
