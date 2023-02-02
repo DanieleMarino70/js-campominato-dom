@@ -1,0 +1,76 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* GENERAL */
+body{
+    background-color: #6D6875;
+}
+
+h1{
+    color: white;
+}
+
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 6rem;
+    background-color: #bfaed8;
+    padding: 0 20px;
+}
+
+
+/* UTILS */
+
+.container{
+    max-width: 1200px;
+    margin: 30px auto;
+    border: 5px solid grey;
+}
+
+
+
+.row{
+    display: flex;
+    flex-wrap: wrap;
+    height: 700px;
+}
+
+.square{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 2px solid white;
+    color: white;
+    cursor: crosshair   ;
+}
+
+.square.active{
+    background-color: azure;
+    color: black;
+}
+
+.square.red{
+    background-color: red;
+    color: black;
+}
+
+.square.easy{
+    width: calc(100% / 10);
+    height: calc(100% / 10);
+}
+
+.square.medium{
+    width: calc(100% / 9);
+    height: calc(100% / 9);
+}
+
+.square.hard{
+    width: calc(100% / 7);
+    height: calc(100% / 7);
+}
