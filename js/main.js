@@ -43,6 +43,7 @@ buttonEl.addEventListener("click", function(){
     const difficultyValue = parseInt(selectDifficultyEl.value);
     //RICHIAMO LA FUNZIONE GRIGLIA
     generateGrid(gridEl, difficultyValue);
+    console.log(gameOver);
 
   });
   
@@ -59,9 +60,10 @@ buttonEl.addEventListener("click", function(){
 
 
 function generateGrid(grid, difficulty){
+    //reset
     grid.innerHTML= "";
     bombe = [];
-
+    
     let counter = 0;
     //console.log(bombe);
     if (difficulty == 1) {
@@ -99,7 +101,6 @@ function generateGrid(grid, difficulty){
               }
             }
           }
-          
         });
         grid.append(squareEl);
       }
@@ -157,20 +158,26 @@ function generateGrid(grid, difficulty){
         squareEl.classList.add("square");
         squareEl.classList.add("hard");
         squareEl.value = text;
+        // if (bombe.includes(squareEl.value)) {
+        //   squareEl.append("💣");
+        //   squareEl.style.fontSize = "0rem";
+        // }
         squareEl.addEventListener("click", function getSquare() {
-          if(gameOver){
+          if (gameOver) {
             this.removeEventListener("click", getSquare);
-          }else{
+            return gameOver;
+          } else {
             if (bombe.includes(this.value)) {
               this.classList.add("red");
               this.append("💣");
+              this.style.fontSize = "1.5rem";
               gameOver = true;
               this.removeEventListener("click", getSquare);
             } else {
               this.classList.add("active");
               counter++;
               this.removeEventListener("click", getSquare);
-              if (counter == 16){
+              if (counter == 16) {
                 gameOver = true;
                 console.log("HAI VINTO!");
               }
@@ -178,11 +185,15 @@ function generateGrid(grid, difficulty){
           }
         });
 
+
         grid.append(squareEl);
       }
+
+
+
     }
 
    
 }
 
-//function gameOver
+
