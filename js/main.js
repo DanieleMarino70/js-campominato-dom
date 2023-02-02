@@ -86,6 +86,7 @@ function generateGrid(grid, difficulty){
           } else {
             if (bombe.includes(this.value)) {
               this.classList.add("red");
+              this.append("💣");
               gameOver = true;
               this.removeEventListener("click", getSquare);
             } else {
@@ -101,7 +102,6 @@ function generateGrid(grid, difficulty){
           
         });
         grid.append(squareEl);
-        squareEl.append(text);
       }
 
       
@@ -126,6 +126,7 @@ function generateGrid(grid, difficulty){
           } else {
             if (bombe.includes(this.value)) {
               this.classList.add("red");
+              this.append("💣");
               gameOver = true;
               this.removeEventListener("click", getSquare);
             } else {
@@ -141,7 +142,6 @@ function generateGrid(grid, difficulty){
         });
 
         grid.append(squareEl);
-        squareEl.append(text);
       }
     } else if (difficulty == 3) {
       while (bombe.length < 16) {
@@ -163,6 +163,7 @@ function generateGrid(grid, difficulty){
           }else{
             if (bombe.includes(this.value)) {
               this.classList.add("red");
+              this.append("💣");
               gameOver = true;
               this.removeEventListener("click", getSquare);
             } else {
@@ -178,7 +179,6 @@ function generateGrid(grid, difficulty){
         });
 
         grid.append(squareEl);
-        squareEl.append(text);
       }
     }
 
