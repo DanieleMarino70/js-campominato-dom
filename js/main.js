@@ -30,11 +30,12 @@ containerEl.style.display = "none";
 // SI CREA UN ARRAY DI 16 NUMERI CASUALI IN BASE ALLA DIFFICOLTA' (100, 81, 49) 
 
 let bombe = [];
-let gameOver = false;
+let isGameOver = false;
+let squaresNumber = 0;
 
 //AGGIUNGO AL BOTTONE L'EVENTO CLICK DOVE CREERA' LA GRIGLIA IN CONTAINER
 buttonEl.addEventListener("click", function(){
-    gameOver = false;
+    isGameOver = false;
     //CONTAINER CON STYLE TEMPORANEO
     containerEl.style.display = "block";
     //CREO UN ELEMENTO DALL'ID ROW
@@ -43,7 +44,6 @@ buttonEl.addEventListener("click", function(){
     const difficultyValue = parseInt(selectDifficultyEl.value);
     //RICHIAMO LA FUNZIONE GRIGLIA
     generateGrid(gridEl, difficultyValue);
-    console.log(gameOver);
 
   });
   
@@ -63,10 +63,13 @@ function generateGrid(grid, difficulty){
     //reset
     grid.innerHTML= "";
     bombe = [];
-    
+    squaresNumber = 0;
     let counter = 0;
+
+
     //console.log(bombe);
     if (difficulty == 1) {
+      squaresNumber = 100;
       // CON NUMERI CHE NON SI RIPETONO
       while (bombe.length < 16) {
         const randomNumber = Math.floor(Math.random() * 100 + 1);
@@ -76,30 +79,29 @@ function generateGrid(grid, difficulty){
       }
       console.log(bombe);
 
-      for (let i = 0; i < 100; i++) {
+      for (let i = 0; i < squaresNumber; i++) {
         const text = i + 1;
         const squareEl = document.createElement("div");
         squareEl.classList.add("square");
         squareEl.classList.add("easy");
-        squareEl.value = text;
-        squareEl.addEventListener("click", function getSquare() {
-          if (gameOver) {
-            this.removeEventListener("click", getSquare);
-          } else {
-            if (bombe.includes(this.value)) {
+        squareEl.setAttribute("data-index", text);
+        squareEl.addEventListener("click", function () {
+          if (!isGameOver) {
+            let allActives = document.querySelectorAll(".active");
+            if (bombe.includes(parseInt(this.getAttribute("data-index")))) {
               this.classList.add("red");
-              this.append("💣");
-              gameOver = true;
-              this.removeEventListener("click", getSquare);
+              gameOver(allActives.length, false);
             } else {
               this.classList.add("active");
-              counter++;
-              this.removeEventListener("click", getSquare);
-              if (counter == 16) {
-                gameOver = true;
-                console.log("HAI VINTO!");
-              }
+              // VINCERAI SE OCCUPERAI TUTTE LE CASELLE CON ACTIVE SENZA TOCCARE LE BOMBE
             }
+
+            allActives = document.querySelectorAll(".active");
+            console.log(allActives);
+            if (allActives.length == squaresNumber - bombe.length) {
+              gameOver(allActives.length, true);
+            }
+          } else {
           }
         });
         grid.append(squareEl);
@@ -108,6 +110,7 @@ function generateGrid(grid, difficulty){
       
 
     } else if (difficulty == 2) {
+      squaresNumber = 81;
       while (bombe.length < 16) {
         const randomNumber = Math.floor(Math.random() * 81 + 1);
         if (!bombe.includes(randomNumber)) {
@@ -115,36 +118,36 @@ function generateGrid(grid, difficulty){
         }
       }
       console.log(bombe);
-      for (let i = 0; i < 81; i++) {
+      for (let i = 0; i < squaresNumber; i++) {
         const text = i + 1;
         const squareEl = document.createElement("div");
         squareEl.classList.add("square");
         squareEl.classList.add("medium");
-        squareEl.value = text;
-        squareEl.addEventListener("click", function getSquare() {
-          if (gameOver) {
-            this.removeEventListener("click", getSquare);
-          } else {
-            if (bombe.includes(this.value)) {
+        squareEl.setAttribute("data-index", text);
+        squareEl.addEventListener("click", function () {
+          if (!isGameOver) {
+            let allActives = document.querySelectorAll(".active");
+            if (bombe.includes(parseInt(this.getAttribute("data-index")))) {
               this.classList.add("red");
-              this.append("💣");
-              gameOver = true;
-              this.removeEventListener("click", getSquare);
+              gameOver(allActives.length, false);
             } else {
               this.classList.add("active");
-              counter++;
-              this.removeEventListener("click", getSquare);
-              if (counter == 16) {
-                gameOver = true;
-                console.log("HAI VINTO!");
-              }
+              // VINCERAI SE OCCUPERAI TUTTE LE CASELLE CON ACTIVE SENZA TOCCARE LE BOMBE
             }
+
+            allActives = document.querySelectorAll(".active");
+            console.log(allActives);
+            if (allActives.length == squaresNumber - bombe.length) {
+              gameOver(allActives.length, true);
+            }
+          } else {
           }
         });
 
         grid.append(squareEl);
       }
     } else if (difficulty == 3) {
+      squaresNumber = 49;
       while (bombe.length < 16) {
         const randomNumber = Math.floor(Math.random() * 49 + 1);
         if (!bombe.includes(randomNumber)) {
@@ -152,42 +155,78 @@ function generateGrid(grid, difficulty){
         }
       }
       console.log(bombe);
-      for (let i = 0; i < 49; i++) {
+      for (let i = 0; i < squaresNumber; i++) {
         const text = i + 1;
         const squareEl = document.createElement("div");
         squareEl.classList.add("square");
         squareEl.classList.add("hard");
-        squareEl.value = text;
-        // if (bombe.includes(squareEl.value)) {
-        //   squareEl.append("💣");
-        //   squareEl.style.fontSize = "0rem";
-        // }
-        squareEl.addEventListener("click", function getSquare() {
-          if (gameOver) {
-            this.removeEventListener("click", getSquare);
-          } else {
-            if (bombe.includes(this.value)) {
+        squareEl.setAttribute("data-index", text);
+        squareEl.addEventListener("click", function () {
+          if (!isGameOver) {
+            let allActives = document.querySelectorAll(".active");
+            if (bombe.includes(parseInt(this.getAttribute("data-index")))) {
               this.classList.add("red");
-              this.append("💣");
-              this.style.fontSize = "1.5rem";
-              gameOver = true;
-              this.removeEventListener("click", getSquare);
+              gameOver(allActives.length, false);
             } else {
               this.classList.add("active");
-              counter++;
-              this.removeEventListener("click", getSquare);
-              if (counter == 16) {
-                gameOver = true;
-                console.log("HAI VINTO!");
-              }
+              // VINCERAI SE OCCUPERAI TUTTE LE CASELLE CON ACTIVE SENZA TOCCARE LE BOMBE
             }
+            
+            allActives = document.querySelectorAll(".active");
+            console.log(allActives);
+            if (allActives.length == (squaresNumber - bombe.length)) {
+              gameOver(allActives.length, true);
+            }
+          } else {
+            
           }
         });
-
-
+        
+        
         grid.append(squareEl);
       }
     }  
 }
 
 
+
+function gameOver(allActives, userWon){
+  isGameOver = true;
+  console.log(allActives);
+  
+  if (userWon){
+    alert(`Complimenti!, hai totalizzato ${allActives} punti`);
+    
+  }else{
+    alert(`Peccato!, hai totalizzato ${allActives} punti`);
+  }
+  
+
+
+  //if (bombe.includes(parseInt(squareEl.getAttribute("data-index"))))
+  const squares = document.querySelectorAll(".square");
+  for (const square of squares){
+    if(bombe.includes(parseInt(square.getAttribute("data-index")))){
+      square.append("💣");
+    }
+  }
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// if (bombe.includes(squareEl.value)) {
+//   squareEl.append("💣");
+//   squareEl.style.fontSize = "0rem";
+// }
